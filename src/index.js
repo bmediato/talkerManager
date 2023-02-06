@@ -14,3 +14,7 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+app.get('/talker', (req, res) => {
+  
+});
