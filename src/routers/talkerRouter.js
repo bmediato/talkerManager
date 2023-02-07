@@ -52,4 +52,24 @@ validationWatchedAt, async (req, res) => {
   }
 });
 
+router.put('/:id', auth,
+validationName,
+validationAge,
+validationTalk,
+validationRate, 
+validationWatchedAt, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const allTalks = await talkers();
+    const index = allTalks.findIndex((el) => el.id === +id);
+    allTalks[index] = { id: Number(id), name, age, talk };
+    const upDateTalks = JSON.stringify(allTalks, null, 2);
+    await fs.writeFile(caminho, upDateTalks);
+    res.status(200).json(allTalks[index]);
+  } catch (error) {
+    return res.status(400).send({ message: error.message });
+  }
+});
+
 module.exports = router;
