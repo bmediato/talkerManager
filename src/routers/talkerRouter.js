@@ -72,4 +72,17 @@ validationWatchedAt, async (req, res) => {
   }
 });
 
+router.delete('/:id', auth, async (req, res) => {
+try {
+const { id } = req.params;
+const allTalks = await talkers();
+const findId = allTalks.filter((el) => el.id !== +id);
+const updateTalk = JSON.stringify(findId, null, 2);
+await fs.writeFile(caminho, updateTalk);
+res.status(204).end();
+} catch (error) {
+  res.status(500).send({ message: error.message });
+}
+});
+
 module.exports = router;
