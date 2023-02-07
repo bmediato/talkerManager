@@ -31,9 +31,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', auth, 
 validationName,
 validationAge,
+validationTalk,
 validationRate, 
-validationWatchedAt, 
-validationTalk, async (req, res) => {
+validationWatchedAt, async (req, res) => {
   try {
     const allTalks = await talkers();
     const { name, age, talk } = req.body;
@@ -48,7 +48,7 @@ validationTalk, async (req, res) => {
     await fs.writeFile(caminho, people);
    return res.status(201).json(newPerson);
   } catch (error) {
-  return res.status(500).send({ message: error.message });
+  return res.status(400).send({ message: error.message });
   }
 });
 
