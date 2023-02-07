@@ -13,6 +13,21 @@ const { resolve } = path;
 const caminho = resolve(__dirname, '../talker.json');
 const router = express.Router();
 
+router.get('/search', async (req, res) => {
+  try {
+    const { q } = req.query;
+    const allTalks = await talkers();
+
+    if (!q) {
+    return res.status(200).json(allTalks);
+    }
+    const filterTalks = allTalks.filter((el) => el.name.toLowerCase().includes(q.toLowerCase()));
+    return res.status(200).json(filterTalks);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
 router.get('/', async (req, res) => {
   const allTalks = await talkers();
   return res.status(200).send(allTalks);
